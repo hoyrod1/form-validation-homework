@@ -11,7 +11,7 @@
       src="https://kit.fontawesome.com/d8f052c6cf.js"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="index.js"></script>
+    <script defer type="text/javascript" src="index.js"></script>
   </head>
   <body>
     <!-- Container for entire form. -->
@@ -23,26 +23,27 @@
 
         <!-- Registration Form -->
         <form id="registration">
-          <input name="username" type="text" placeholder="Username" />
+          <!-- Username Field-->
+          <input name="username" type="text" placeholder="Username" required />
           <span class="input-icon"><i class="fa-solid fa-user"></i></span><br />
 
-          <input name="email" type="text" placeholder="Email" />
+          <!-- Email Field-->
+          <input name="email" type="text" placeholder="Email" required />
           <span class="input-icon"><i class="fa-solid fa-envelope"></i></span
           ><br />
 
-          <input name="password" type="text" placeholder="Password" />
+          <!-- Password Field-->
+          <input name="password" type="text" placeholder="Password" required />
           <span class="input-icon"><i class="fa-solid fa-key"></i></span><br />
 
-          <input
-            name="passwordCheck"
-            type="text"
-            placeholder="Repeat Password"
-          />
-          <span class="input-icon"><i class="fa-solid fa-key"></i></span
+          <!-- Confirm Password Field-->
+          <input name="passwordCheck" type="text" placeholder="Repeat Password" required />
+          <span class="input-icon"><i class="fa-solid fa-key" ></i></span
           ><br /><br />
 
+          <!-- Check box Field-->
           <div class="flex-row">
-            <input name="terms" type="checkbox" />
+            <input name="terms" type="checkbox" required />
             <label for="terms"
               >I agree to the&nbsp;<a href="#">Terms of Use</a>.</label
             >
@@ -58,13 +59,17 @@
 
         <!-- Login Form -->
         <form id="login" style="border-bottom: 1px solid lightgray;">
+
+          <!-- Username Field-->
           <input name="username" type="text" placeholder="Username" />
           <span class="input-icon"><i class="fa-solid fa-user"></i></span><br />
 
+          <!-- Password Field-->
           <input name="password" type="text" placeholder="Password" />
           <span class="input-icon"><i class="fa-solid fa-key"></i></span
           ><br /><br />
 
+          <!-- Checkbox Field-->
           <div class="flex-row">
             <input name="persist" type="checkbox" />
             <label for="persist">Keep me logged in.</label>
