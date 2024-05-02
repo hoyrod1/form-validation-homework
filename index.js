@@ -18,13 +18,83 @@ registrationForm.addEventListener("submit", registrationFormSubmission);
 
 function registrationFormSubmission(e) {
   e.preventDefault();
-  console.log(e);
-  console.log(acceptTerms.value);
-  console.log(regUserName.value);
-}
-//=============================================================//
 
-//=============================================================//
+  const regUserNameVal = validateRegUsername();
+  const userEmailVal = validateRegEmail();
+  // const userPasswordVal = validateLoginPassword();
+
+  if (regUserNameVal === false) {
+    e.returnValue = false;
+    return false;
+  }
+  if (userEmailVal === false) {
+    e.returnValue = false;
+    return false;
+  }
+
+  //---------- Registration Acceptance Validation message ----------//
+  if (acceptTerms.checked !== true) {
+    const message = "Please accept our terms & conditions";
+    registrationErrorMessage(message);
+    acceptTerms.focus();
+    return false;
+  }
+  //------------------------------------------------------------------//
+  //==================================================================//
+  //---------------- Registration Validaiton Function ----------------//
+  // Registration Username Validiation
+  function validateRegUsername() {
+    const regUserNameVal = regUserName.value;
+    if (regUserNameVal === "") {
+      const message = "Username Feild can not be empty";
+      registrationErrorMessage(message);
+      regUserName.focus();
+      return false;
+    }
+
+    if (regUserNameVal.length < 4) {
+      const message = "The username must be at least four characters long";
+      registrationErrorMessage(message);
+      regUserName.focus();
+      return false;
+    }
+
+    const regE = /(.)(?<!1.)(?!.*\1)(.)(?<!3)/;
+    let regUserName2Chars = regE.test(regUserNameVal);
+    if (!regUserName2Chars) {
+      const message =
+        "The username must contain at least two unique characters";
+      registrationErrorMessage(message);
+      regUserName.focus();
+      return false;
+    }
+  }
+  //  Registration Email Validiation
+  function validateRegEmail() {
+    const regUserEmailVal = regUserEmail.value;
+    const regE = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    let regUserEmailEx = regE.test(regUserEmailVal);
+    if (!regUserEmailEx) {
+      const message = "The is not a valid email";
+      registrationErrorMessage(message);
+      regUserEmail.focus();
+      return false;
+    }
+  }
+  //===================================================================/
+  //---------------- Function to create error message ---------------//
+  function registrationErrorMessage(message) {
+    const pTag = document.createElement("p");
+    pTag.style.color = "red";
+    pTag.textContent = message;
+    errorDisplay.appendChild(pTag);
+    loginUserName.focus();
+  }
+  //===================================================================/
+}
+//===================================================================//
+
+//===================================================================//
 //=================== Login Form Validation ===================//
 // Caching the username from local storage
 const storedUserName = localStorage.getItem("username");
@@ -33,7 +103,6 @@ const storedPassword = localStorage.getItem("password");
 //---------------- Body element cached cached ----------------//
 const bodyTag = document.body;
 const formContainer = document.querySelector("div");
-console.log(formContainer);
 //---------------- Login form elements cached ----------------//
 const loginForm = document.getElementById("login");
 const loginUserName = loginForm.elements["username"];
@@ -45,24 +114,27 @@ loginForm.addEventListener("submit", loginFormSubmission);
 function loginFormSubmission(e) {
   e.preventDefault();
 
-  const successMessage = "You have succesfully Logged in";
-  const sessionPersisted = "You will stay Logged in";
   const userNameVal = validateLoginUsername();
   const userPasswordVal = validateLoginPassword();
-  let userKeepMeLoggedIn = keepMeLogin.checked;
 
   if (userNameVal === false) {
-    e.preventDefault();
     e.returnValue = false;
     return false;
   }
 
   if (userPasswordVal === false) {
-    e.preventDefault();
     e.returnValue = false;
     return false;
   }
   //------------------ Login Success Actions ------------------//
+  // Keep me logged value cached
+  const userKeepMeLoggedIn = keepMeLogin.checked;
+  // Success message
+  const successMessage = "You have succesfully Logged in";
+  // Stay logged in message
+  const sessionPersisted = "You will stay Logged in";
+  //-----------------------------------------------------------//
+  // New div to contain the success message
   const successDiv = document.createElement("div");
   successDiv.style.width = "500px";
   successDiv.style.height = "100px";
@@ -87,11 +159,10 @@ function loginFormSubmission(e) {
     persistTag.textContent = sessionPersisted;
     successDiv.appendChild(persistTag);
   }
-  //============================================================//
+  //==================================================================//
+  //------------------- Login Validaiton Function --------------------//
 
-  //============================================================//
-  //---------------- Login Validaiton Function ----------------//
-  // Validation function for the username
+  // Login User Name Validation
   function validateLoginUsername() {
     // Storing the username in lower case
     let userNameValue = loginUserName.value.toLowerCase();
@@ -113,6 +184,7 @@ function loginFormSubmission(e) {
     //   return false;
     // }
   }
+
   // Validation function for the password
   function validateLoginPassword() {
     let userPasswordValue = loginUserPassword.value;
