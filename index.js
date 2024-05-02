@@ -160,8 +160,12 @@ function registrationFormSubmission(e) {
   //---------------- Function to create error message ----------------//
   function registrationErrorMessage(message) {
     const pTag = document.createElement("p");
-    pTag.style.color = "red";
+    // pTag.style.color = "red";
     pTag.textContent = message;
+    pTag.style.textAlign = "center";
+    errorDisplay.style.display = "block";
+    errorDisplay.style.border = "2px solid #ffab40";
+    errorDisplay.style.borderRadius = "10px";
     errorDisplay.appendChild(pTag);
     loginUserName.focus();
   }
@@ -275,8 +279,12 @@ function loginFormSubmission(e) {
   //---------------- Function to create error message ----------------//
   function loginErrorMessage(message) {
     const pTag = document.createElement("p");
-    pTag.style.color = "red";
+    // pTag.style.color = "red";
     pTag.textContent = message;
+    pTag.style.textAlign = "center";
+    errorDisplay.style.display = "block";
+    errorDisplay.style.border = "2px solid #ffab40";
+    errorDisplay.style.borderRadius = "10px";
     errorDisplay.appendChild(pTag);
     loginUserName.focus();
   }
