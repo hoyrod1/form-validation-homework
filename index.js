@@ -129,7 +129,12 @@ function registrationFormSubmission(e) {
       /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{12,32}$/;
     let regUserPasswordEx = regE.test(regUserPasswordVal);
     if (!regUserPasswordEx) {
-      const message = "Please make your password stronger";
+      const message = `
+      1. Your password must be at least 12 characters long
+      2. Your Password must have at least one uppercase and one lowercase letter
+      3. Your Password Passwords must contain at least one number
+      4. Your Password Passwords must contain at least one special character
+      `;
       registrationErrorMessage(message);
       regUserPassword.focus();
       return false;
