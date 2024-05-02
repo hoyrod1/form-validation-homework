@@ -1,19 +1,21 @@
+console.log("=================== Form Validation Homework ===================");
+//=================================================================//
 console.log(
-  "======================= Form Validation Homework ======================="
+  "==================== Registration Validation ===================="
 );
-//=============================================================//
-//================ Registration Form Validation ===============//
-//--------------- Error display container cached --------------//
+//=================================================================//
+//================== Registration Form Validation =================//
+//----------------- Error display container cached ----------------//
 let errorDisplay = document.getElementById("errorDisplay");
-//------------ Registration form elements cached ------------//
+//---------------- Registration form elements cached --------------//
 const registrationForm = document.getElementById("registration");
 const regUserName = registrationForm.elements["username"];
 const regUserEmail = registrationForm.elements["email"];
 const regUserPassword = registrationForm.elements["password"];
-const checkPassword = registrationForm.elements["passwordCheck"];
+const confirmPassword = registrationForm.elements["passwordCheck"];
 const acceptTerms = registrationForm.elements["terms"];
 
-//------------ Event Listner for registration form ------------//
+//--------------- Event Listner for registration form ---------------//
 registrationForm.addEventListener("submit", registrationFormSubmission);
 
 function registrationFormSubmission(e) {
@@ -21,7 +23,7 @@ function registrationFormSubmission(e) {
 
   const regUserNameVal = validateRegUsername();
   const userEmailVal = validateRegEmail();
-  // const userPasswordVal = validateLoginPassword();
+  const userPasswordVal = validateRegPassword();
 
   if (regUserNameVal === false) {
     e.returnValue = false;
@@ -31,8 +33,12 @@ function registrationFormSubmission(e) {
     e.returnValue = false;
     return false;
   }
+  if (userPasswordVal === false) {
+    e.returnValue = false;
+    return false;
+  }
 
-  //---------- Registration Acceptance Validation message ----------//
+  //---------- Registration Acceptance Validation message -----------//
   if (acceptTerms.checked !== true) {
     const message = "Please accept our terms & conditions";
     registrationErrorMessage(message);
@@ -44,7 +50,7 @@ function registrationFormSubmission(e) {
   //---------------- Registration Validaiton Function ----------------//
   // Registration Username Validiation
   function validateRegUsername() {
-    const regUserNameVal = regUserName.value;
+    const regUserNameVal = regUserName.value.toLowerCase();
     if (regUserNameVal === "") {
       const message = "Username Feild can not be empty";
       registrationErrorMessage(message);
@@ -69,7 +75,8 @@ function registrationFormSubmission(e) {
       return false;
     }
   }
-  //  Registration Email Validiation
+  //===================================================================/
+  // Validation For Registration Email Validiation
   function validateRegEmail() {
     const regUserEmailVal = regUserEmail.value;
     const regE = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -82,7 +89,43 @@ function registrationFormSubmission(e) {
     }
   }
   //===================================================================/
-  //---------------- Function to create error message ---------------//
+  // Validation function for the Registration password
+  function validateRegPassword() {
+    const regConfirmPassword = confirmPassword.value;
+    const regUserPasswordVal = regUserPassword.value;
+    const regE =
+      /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{12,32}$/;
+    let regUserPasswordEx = regE.test(regUserPasswordVal);
+    if (!regUserPasswordEx) {
+      const message = "Please make your password stronger";
+      registrationErrorMessage(message);
+      regUserPassword.focus();
+      return false;
+    }
+    if (regUserPasswordVal !== regConfirmPassword) {
+      const message = "Your password do not match";
+      registrationErrorMessage(message);
+      regUserPassword.focus();
+      return false;
+    }
+    const lowCasePassWord = regUserPasswordVal.toLowerCase();
+    const lowCaseUserName = regUserName.value.toLowerCase();
+    if (lowCasePassWord.includes(lowCaseUserName)) {
+      const message = "Your password can not contain your username";
+      registrationErrorMessage(message);
+      regUserPassword.focus();
+      return false;
+    }
+    const check4Password = "password";
+    if (lowCasePassWord.includes(check4Password.toLowerCase())) {
+      const message = "Your password can not contain the word password";
+      registrationErrorMessage(message);
+      regUserPassword.focus();
+      return false;
+    }
+  }
+  //==================================================================//
+  //---------------- Function to create error message ----------------//
   function registrationErrorMessage(message) {
     const pTag = document.createElement("p");
     pTag.style.color = "red";
@@ -90,10 +133,10 @@ function registrationFormSubmission(e) {
     errorDisplay.appendChild(pTag);
     loginUserName.focus();
   }
-  //===================================================================/
+  //==================================================================//
 }
 //===================================================================//
-
+console.log("======================= Login Validation =======================");
 //===================================================================//
 //=================== Login Form Validation ===================//
 // Caching the username from local storage
@@ -162,7 +205,7 @@ function loginFormSubmission(e) {
   //==================================================================//
   //------------------- Login Validaiton Function --------------------//
 
-  // Login User Name Validation
+  // Validation function for the login User Name
   function validateLoginUsername() {
     // Storing the username in lower case
     let userNameValue = loginUserName.value.toLowerCase();
@@ -185,7 +228,7 @@ function loginFormSubmission(e) {
     // }
   }
 
-  // Validation function for the password
+  // Validation function for the login password
   function validateLoginPassword() {
     let userPasswordValue = loginUserPassword.value;
     if (userPasswordValue === "") {
