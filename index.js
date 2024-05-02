@@ -47,6 +47,38 @@ function registrationFormSubmission(e) {
   }
   //------------------------------------------------------------------//
   //==================================================================//
+  //------------------------------------------------------------------//
+  // Prepare Validated input for local storage
+  const valUserName = regUserName.value.toLowerCase();
+  const valUserEmail = regUserEmail.value.toLowerCase();
+  const valUsrPassword = regUserPassword.value;
+  console.log(`
+  User Data: ${valUserName}
+  Email: ${valUserEmail}
+  Password: ${valUsrPassword}`);
+  /**
+   * User Data: hoyrod1
+     Email: hoyrod1@aol.com
+     Password: April,212004
+   */
+  // Caching the username from local storage
+  const storedUserName = localStorage.getItem("username");
+  // Storing the username to local storage
+  if (valUserName === storedUserName.toLowerCase()) {
+    const message = "Username already exist";
+    registrationErrorMessage(message);
+    regUserName.focus();
+    return false;
+  }
+
+  const storingUserName = localStorage.setItem("username", valUserName);
+  // Storing the email to local storage
+  const storingEmail = localStorage.setItem("email", valUserEmail);
+  // Storing the password to local storage
+  const storingPassword = localStorage.setItem("password", valUsrPassword);
+  registrationForm.reset();
+  //------------------------------------------------------------------//
+  //==================================================================//
   //---------------- Registration Validaiton Function ----------------//
   // Registration Username Validiation
   function validateRegUsername() {
@@ -136,13 +168,9 @@ function registrationFormSubmission(e) {
   //==================================================================//
 }
 //===================================================================//
-console.log("======================= Login Validation =======================");
+console.log("=================== Login Validation ===================");
 //===================================================================//
 //=================== Login Form Validation ===================//
-// Caching the username from local storage
-const storedUserName = localStorage.getItem("username");
-// Caching the password from local storage
-const storedPassword = localStorage.getItem("password");
 //---------------- Body element cached cached ----------------//
 const bodyTag = document.body;
 const formContainer = document.querySelector("div");
@@ -156,6 +184,10 @@ loginForm.addEventListener("submit", loginFormSubmission);
 
 function loginFormSubmission(e) {
   e.preventDefault();
+  // Caching the username from local storage
+  const storedUserName = localStorage.getItem("username");
+  // Caching the password from local storage
+  const storedPassword = localStorage.getItem("password");
 
   const userNameVal = validateLoginUsername();
   const userPasswordVal = validateLoginPassword();
@@ -211,41 +243,42 @@ function loginFormSubmission(e) {
     let userNameValue = loginUserName.value.toLowerCase();
 
     if (userNameValue === "") {
-      const pTag = document.createElement("p");
-      pTag.style.color = "red";
-      pTag.textContent = "Username Feild can not be empty";
-      errorDisplay.appendChild(pTag);
+      const message = "Username Feild can not be empty";
+      loginErrorMessage(message);
       loginUserName.focus();
       return false;
     }
-    // if (userNameValue !== storedUserName) {
-    //   loginUserPassword.focus();
-    //   const pTag = document.createElement("p");
-    //   pTag.style.color = "red";
-    //   pTag.textContent = "Username doesn't exist";
-    //   errorDisplay.appendChild(pTag);
-    //   return false;
-    // }
+    if (userNameValue !== storedUserName) {
+      const message = "Username doesn't exist";
+      loginErrorMessage(message);
+      loginUserName.focus();
+      return false;
+    }
   }
 
   // Validation function for the login password
   function validateLoginPassword() {
     let userPasswordValue = loginUserPassword.value;
     if (userPasswordValue === "") {
-      const pTag = document.createElement("p");
-      pTag.style.color = "red";
-      pTag.textContent = "Password Feild can not be empty";
-      errorDisplay.appendChild(pTag);
+      const message = "Password Feild can not be empty";
+      loginErrorMessage(message);
       loginUserPassword.focus();
       return false;
     }
-    // if (userPasswordValue !== storedPassword) {
-    //   loginUserPassword.focus();
-    //   const pTag = document.createElement("p");
-    //   pTag.style.color = "red";
-    //   pTag.textContent = "Incorrect Password";
-    //   errorDisplay.appendChild(pTag);
-    //   return false;
-    // }
+    if (userPasswordValue !== storedPassword) {
+      const message = "Incorrect Password";
+      loginErrorMessage(message);
+      loginUserPassword.focus();
+      return false;
+    }
   }
+  //---------------- Function to create error message ----------------//
+  function loginErrorMessage(message) {
+    const pTag = document.createElement("p");
+    pTag.style.color = "red";
+    pTag.textContent = message;
+    errorDisplay.appendChild(pTag);
+    loginUserName.focus();
+  }
+  //==================================================================//
 }
