@@ -109,6 +109,7 @@ a:hover {
   background: #fcc;
   color: red;
   display: flex;
+  height: 200px;
   width: 500px;
   left: 50%;
   top: calc(50% + 180px);
